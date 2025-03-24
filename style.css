@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+}
+
+header {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    padding: 1rem 0;
+}
+
+.page-title {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.hero {
+    background-color: #fff; /* White background for image */
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.hero img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+.about, .benefits, .invitation {
+    background-color: #fff;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #007bff; /* Blue title color */
+}
+
+.prayer {
+    font-style: italic;
+    color: #007bff; /* Blue prayer color */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) { /* For mobile devices */
+    .hero img {
+        width: 100%;
+    }
+
+    .about, .benefits, .invitation {
+        padding: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 768px) { /* For desktop devices */
+    .hero {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .hero img {
+        max-width: 60%;
+    }
+
+    .about, .benefits, .invitation {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about p, .benefits p, .invitation p {
+        text-align: center;
+        max-width: 600px;
+    }
+}
