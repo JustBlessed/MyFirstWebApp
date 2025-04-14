@@ -6,7 +6,7 @@
     <meta name="keywords" content="JESUS, christianity, GOD">
     <meta name="author" content="Minister Blessed">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css">
     <title>Loving JESUS</title>
     <style>
         .flex-container {
@@ -21,6 +21,7 @@
             color: #555;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -80,75 +81,77 @@
                 <label for="no">No</label><br><br>
                 <input type="submit" value="Submit">
             </form>
-            <div id="message"></div> 
+            <div id="message"></div>
             <p><a href="#" id="verifyLink">Click here to verify your email</a></p>
         </section>
     </main>
     <script>
-        const form = document.getElementById('myForm');
-        const message = document.getElementById('message');
-        const verifyLink = document.getElementById('verifyLink');
+        $(document).ready(function() {
+            const $form = $('#myForm');
+            const $message = $('#message');
+            const $verifyLink = $('#verifyLink');
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); 
+            $form.submit(function(event) {
+                event.preventDefault();
 
-            const fname = document.getElementById('fname').value;
-            const lname = document.getElementById('lname').value;
-            const email = document.getElementById('email').value;
-            const consent = document.querySelector('input[name="consent"]:checked').value;
+                const fname = $('#fname').val();
+                const lname = $('#lname').val();
+                const email = $('#email').val();
+                const consent = $('input[name="consent"]:checked').val();
 
-            if (!fname || !lname || !email) {
-                message.textContent = 'Please fill in all fields.';
-                return;
-            }
-
-            let msg = `Thank you, ${fname} ${lname}! Your email is ${email}.`;
-            if (consent === 'Yes') {
-                msg += ' We will contact you via email.';
-            } else {
-                msg += ' We will not contact you via email.';
-            }
-
-            message.textContent = msg;
-        });
-
-        verifyLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            const verificationToken = 'ffff8c2d25725516cf34c8cfa9c5f4d8f1f1f407';
-            verifyEmail(verificationToken);
-        });
-
-        async function verifyEmail(token) {
-            try {
-                const response = await fetch(`https://api.freeapi.app/api/v1/users/verify-email/ffff8c2d25725516cf34c8cfa9c5f4d8f1f1f407`);
-                const data = await response.json();
-                if (data.success) {
-                    message.textContent = 'Email verified successfully!';
-                } else {
-                    message.textContent = 'Email verification failed. Please try again.';
+                if (!fname || !lname || !email) {
+                    $message.text('Please fill in all fields.');
+                    return;
                 }
-            } catch (error) {
-                console.error('Error verifying email:', error);
-                message.textContent = 'An error occurred while verifying your email.';
-            }
-        }
 
-        function setupHoverEffects() {
-            const boxes = document.querySelectorAll('input[type="text"]');
-            
-            boxes.forEach((box, index) => {
-                const bioText = document.getElementById(`bio${index + 1}`);
-                
-                box.addEventListener('mouseover', () => {
-                    bioText.style.display = 'block'; 
-                });
-                
-                box.addEventListener('mouseout', () => { 
-                    bioText.style.display = 'none';
-                });
+                let msg = `Thank you, ${fname} ${lname}! Your email is ${email}.`;
+                if (consent === 'Yes') {
+                    msg += ' We will contact you via email.';
+                } else {
+                    msg += ' We will not contact you via email.';
+                }
+
+                $message.text(msg);
             });
-        }        
-        setupHoverEffects();
+
+            $verifyLink.click(function(event) {
+                event.preventDefault();
+                const verificationToken = 'ffff8c2d25725516cf34c8cfa9c5f4d8f1f1f407';
+                verifyEmail(verificationToken);
+            });
+
+            function verifyEmail(token) {
+                $.ajax({
+                    url: `https://api.freeapi.app/api/v1/users/verify-email/ffff8c2d25725516cf34c8cfa9c5f4d8f1f1f407`,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                            $message.text('Email verified successfully!');
+                        } else {
+                            $message.text('Email verification failed. Please try again.');
+                        }
+                    },
+                    error: function() {
+                        console.error('Error verifying email:');
+                        $message.text('An error occurred while verifying your email.');
+                    }
+                });
+            }
+
+            // Hover effects for input fields
+            $('input[type="text"]').each(function(index) {
+                const $bioText = $(`#bio${index + 1}`);
+                $(this).hover(
+                    function() {
+                        $bioText.show();
+                    },
+                    function() {
+                        $bioText.hide();
+                    }
+                );
+            });
+        });
     </script>
 </body>
 </html>
