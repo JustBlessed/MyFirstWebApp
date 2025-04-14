@@ -81,30 +81,27 @@
                 <input type="submit" value="Submit">
             </form>
             <div id="message"></div> 
+            <p><a href="#" id="verifyLink">Click here to verify your email</a></p>
         </section>
     </main>
     <script>
-        // Get the form and message elements
         const form = document.getElementById('myForm');
         const message = document.getElementById('message');
+        const verifyLink = document.getElementById('verifyLink');
 
-        // Add an event listener to the form's submit event
         form.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
 
-            // Get form values
             const fname = document.getElementById('fname').value;
             const lname = document.getElementById('lname').value;
             const email = document.getElementById('email').value;
             const consent = document.querySelector('input[name="consent"]:checked').value;
 
-            // Basic validation (add more as needed)
             if (!fname || !lname || !email) {
                 message.textContent = 'Please fill in all fields.';
                 return;
             }
 
-            // Construct message
             let msg = `Thank you, ${fname} ${lname}! Your email is ${email}.`;
             if (consent === 'Yes') {
                 msg += ' We will contact you via email.';
@@ -115,6 +112,27 @@
             message.textContent = msg;
         });
 
+        verifyLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const verificationToken = 'ffff8c2d25725516cf34c8cfa9c5f4d8f1f1f407'; // Replace with dynamic token if needed
+            verifyEmail(verificationToken);
+        });
+
+        async function verifyEmail(token) {
+            try {
+                const response = await fetch(`https://api.freeapi.app/api/v1/users/verify-email/${token}`);
+                const data = await response.json();
+                if (data.success) {
+                    message.textContent = 'Email verified successfully!';
+                } else {
+                    message.textContent = 'Email verification failed. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error verifying email:', error);
+                message.textContent = 'An error occurred while verifying your email.';
+            }
+        }
+
         function setupHoverEffects() {
             const boxes = document.querySelectorAll('input[type="text"]');
             
@@ -122,18 +140,15 @@
                 const bioText = document.getElementById(`bio${index + 1}`);
                 
                 box.addEventListener('mouseover', () => {
-                    bioText.style.display = 'block'; // Show the bio text
+                    bioText.style.display = 'block'; 
                 });
                 
-                box.addEventListener('mouseout', () => {
-                    bioText.style.display = 'none'; // Hide the bio text
+                box.addEventListener('mouseout', () => { 
+                    bioText.style.display = 'none';
                 });
             });
-        }
-
-        // Call the function to set up the event listeners
+        }        
         setupHoverEffects();
     </script>
 </body>
-<script src="sendEmail.js"></script>
 </html>
